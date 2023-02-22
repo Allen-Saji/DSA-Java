@@ -237,6 +237,39 @@ public class LinkedList {
         return false; // cycle doesn't exist
     }
 
+    public static void removeCycle() {
+        // detect cycle
+        Node slow = head;
+        Node fast = head;
+        boolean cycle = false;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (fast == slow) {
+                cycle = true;// cycle exists
+                break;
+            }
+        }
+
+        if (cycle == false) {
+            return;
+        }
+
+        // find the last node
+        slow = head;
+        Node prev = null;
+        while (fast != slow) {
+            prev = fast;
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        // set last node's next value to null
+        prev.next = null;
+        System.out.println("Cycle removed");
+    }
+
     public void printLL() {
         Node temp = head;
         if (head == null) {
@@ -251,22 +284,29 @@ public class LinkedList {
 
     public static void main(String[] args) {
         LinkedList ll = new LinkedList();
-        ll.addLast(1);
-        ll.addLast(2);
-        ll.addLast(2);
-        ll.add(3, 1);
-        ll.printLL();
+        // ll.addLast(1);
+        // ll.addLast(2);
+        // ll.addLast(3);
+        // ll.add(3, 4);
+        // ll.printLL();
         // ll.printLL();
         // ll.removeFirst();
         // ll.removeLast();
         // ll.reverse();
         // ll.deleteNthfromEnd(3);
-        ll.printLL();
-        System.out.println(ll.checkPalindrome());
+        // ll.printLL();
+        // System.out.println(ll.checkPalindrome());
 
         // System.out.println(ll.itrSearch(4));
         // System.out.println(ll.recSearch(2));
+        head = new Node(1);
+        Node temp = new Node(2);
+        head.next = temp;
+        head.next.next = new Node(3);
+        head.next.next.next = temp;
+        System.out.println(ll.isCycle());
+        removeCycle();
+        System.out.println(ll.isCycle());
 
     }
-
 }
