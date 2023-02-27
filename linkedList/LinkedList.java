@@ -270,6 +270,109 @@ public class LinkedList {
         System.out.println("Cycle removed");
     }
 
+    public Node getMid(Node head) {
+        Node slow = head;
+        Node fast = head.next;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    public Node merge(Node leftHead, Node rightHead) {
+        Node mergedLL = new Node(-1);
+        Node temp = mergedLL;
+
+        while (leftHead != null && rightHead != null) {
+            if (leftHead.data <= rightHead.data) {
+                temp.next = leftHead;
+                leftHead = leftHead.next;
+                temp = temp.next;
+            } else {
+                temp.next = rightHead;
+                rightHead = rightHead.next;
+                temp = temp.next;
+            }
+        }
+
+        while (leftHead != null) {
+            temp.next = leftHead;
+            leftHead = leftHead.next;
+            temp = temp.next;
+        }
+
+        while (rightHead != null) {
+            temp.next = rightHead;
+            rightHead = rightHead.next;
+            temp = temp.next;
+        }
+
+        return mergedLL.next;
+    }
+
+    public Node mergeSort(Node head) {
+        // base case
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // find mid node of the linkedlist
+        Node mid = getMid(head);
+        Node rightHead = mid.next;
+        mid.next = null;
+
+        // Merge sort right and left
+        Node newLeft = mergeSort(head);
+        Node newRight = mergeSort(rightHead);
+
+        // merge
+        return merge(newLeft, newRight);
+    }
+
+    public void zigZag() {
+        // find mid
+        Node fast = head.next;
+        Node slow = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node mid = slow;
+        // reverse seconod half
+        Node curr = mid.next;
+        mid.next = null;
+        Node prev = null;
+        Node next;
+
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        Node leftHead = head;
+        Node rightHead = prev;
+        Node nextL, nextR;
+
+        // alternate merge
+        while (leftHead != null && rightHead != null) {
+            nextL = leftHead.next;
+            leftHead.next = rightHead;
+            nextR = rightHead.next;
+            rightHead.next = nextL;
+
+            leftHead = nextL;
+            rightHead = nextR;
+        }
+
+    }
+
     public void printLL() {
         Node temp = head;
         if (head == null) {
@@ -284,12 +387,20 @@ public class LinkedList {
 
     public static void main(String[] args) {
         LinkedList ll = new LinkedList();
-        // ll.addLast(1);
-        // ll.addLast(2);
-        // ll.addLast(3);
-        // ll.add(3, 4);
+        // ll.addFirst(1);
+        // ll.addFirst(2);
+        // ll.addFirst(3);
+        // ll.addFirst(4);
         // ll.printLL();
+        // head = ll.mergeSort(head);
         // ll.printLL();
+        ll.addLast(1);
+        ll.addLast(2);
+        ll.addLast(3);
+        ll.add(3, 4);
+        ll.printLL();
+        ll.zigZag();
+        ll.printLL();
         // ll.removeFirst();
         // ll.removeLast();
         // ll.reverse();
@@ -299,14 +410,14 @@ public class LinkedList {
 
         // System.out.println(ll.itrSearch(4));
         // System.out.println(ll.recSearch(2));
-        head = new Node(1);
-        Node temp = new Node(2);
-        head.next = temp;
-        head.next.next = new Node(3);
-        head.next.next.next = temp;
-        System.out.println(ll.isCycle());
-        removeCycle();
-        System.out.println(ll.isCycle());
+        // head = new Node(1);
+        // Node temp = new Node(2);
+        // head.next = temp;
+        // head.next.next = new Node(3);
+        // head.next.next.next = temp;
+        // System.out.println(ll.isCycle());
+        // removeCycle();
+        // System.out.println(ll.isCycle());
 
     }
 }
