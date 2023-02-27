@@ -95,6 +95,33 @@ public class Problems {
 
     }
 
+    public static boolean validParentheses(String str) {
+        Stack<Character> s = new Stack<>();
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+
+            if (ch == '(' || ch == '{' || ch == '[') {
+                s.push(ch);
+            } else {
+                if (s.isEmpty()) {
+                    return false;
+                } else if (s.peek() == '(' && ch == ')'
+                        || s.peek() == '{' && ch == '}' ||
+                        s.peek() == '[' && ch == ']') {
+                    s.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        if (s.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         // Stack<Integer> s = new Stack<>();
         // s.push(1);
@@ -118,8 +145,9 @@ public class Problems {
         // for (int i = 0; i < span.length; i++) {
         // System.out.println(span[i]);
         // }
-        int arr[] = { 6, 8, 0, 1, 3 };
-        nextGreaterElement(arr);
-
+        // int arr[] = { 6, 8, 0, 1, 3 };
+        // nextGreaterElement(arr);
+        String str = "({[()]})";
+        System.out.println(validParentheses(str));
     }
 }
