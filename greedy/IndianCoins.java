@@ -9,7 +9,7 @@ public class IndianCoins {
         Integer coins[] = { 1, 2, 5, 10, 20, 50, 100, 500, 2000 };
         Arrays.sort(coins, Comparator.reverseOrder());
 
-        int amt = 100;
+        int amt = 4590;
         int coinCount = 0;
         ArrayList<Integer> ans = new ArrayList<>();
 
@@ -18,10 +18,12 @@ public class IndianCoins {
                 while (coins[i] <= amt) {
                     coinCount++;
                     amt -= coins[i];
+                    ans.add(coins[i]);
                 }
             }
         }
 
         System.out.println("Min coin count is = " + coinCount);
+        System.out.println(ans);
     }
 }
