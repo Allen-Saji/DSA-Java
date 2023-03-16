@@ -1,5 +1,6 @@
 package binaryTrees;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -121,18 +122,159 @@ public class UsingArrays {
 
             return leftSum + rightSum + root.data;
         }
-    }
 
-    public static void main(String[] args) {
-        int nodes[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
-        BinaryTree tree = new BinaryTree();
-        Node root = tree.buildTree(nodes);
-        // tree.preOrder(root);
-        // tree.inOrder(root);
-        // tree.postOrder(root);
-        // tree.levelOrder(root);
-        // System.out.println(tree.height(root));
-        // System.out.println(tree.Count(root));
-        System.out.println(tree.Sum(root));
+        // TC: O(n^2)
+        public int diameter2(Node root) {
+            if (root == null) {
+                return 0;
+            }
+
+            int leftDiam = diameter2(root.left);
+            int leftHt = height(root.left);
+            int rightDiam = diameter2(root.right);
+            int rightHt = height(root.right);
+
+            // diameter that includes the root node
+            int selfDiam = leftHt + rightHt + 1;
+
+            return Math.max(selfDiam, (Math.max(leftDiam, rightDiam)));
+        }
+
+        // static class Info {
+        // int diam;
+        // int ht;
+
+        // public Info(int diam, int ht) {
+        // this.diam = diam;
+        // this.ht = ht;
+        // }
+        // }
+
+        // TC: O(n)
+        // public Info diameter(Node root) {
+        // if (root == null) {
+        // return new Info(0, 0);
+        // }
+
+        // Info leftInfo = diameter(root.left);
+        // Info rightInfo = diameter(root.right);
+
+        // int diam = Math.max(Math.max(leftInfo.diam, rightInfo.diam), leftInfo.ht +
+        // rightInfo.ht + 1);
+        // int ht = Math.max(leftInfo.ht, rightInfo.ht) + 1;
+
+        // return new Info(diam, ht);
+        // }
+
+        public boolean isIdentical(Node root, Node subroot) {
+            if (root == null && subroot == null) {
+                return true;
+            } else if (root == null || subroot == null || root.data != subroot.data) {
+                return false;
+            }
+
+            if (!isIdentical(root.left, subroot.left)) {
+                return false;
+            }
+
+            if (!isIdentical(root.right, subroot.right)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        public boolean isSubTree(Node root, Node subroot) {
+            if (root == null) {
+                return false;
+            }
+
+            if (root.data == subroot.data) {
+                if (isIdentical(root, subroot)) {
+                    return true;
+                }
+            }
+
+            return isSubTree(root.left, subroot) || isSubTree(root.right, subroot);
+        }
+
+        static class Info {
+            Node node;
+            int hd; // horizontal distance
+
+            public Info(Node node, int hd) {
+                this.node = node;
+                this.hd = hd;
+            }
+        }
+
+        public void topView(Node root) {
+            Queue<Info> q = new LinkedList<>();
+            HashMap<Integer, Node> map = new HashMap<>();
+            int min = 0, max = 0;
+
+            q.add(new Info(root, 0));
+            q.add(null);
+
+            while (!q.isEmpty()) {
+                Info curr = q.remove();
+                if (curr == null) {
+                    if (q.isEmpty()) {
+                        break;
+                    } else {
+                        q.add(null);
+                    }
+                } else {
+
+                    if (!map.containsKey(curr.hd)) {
+                        map.put(curr.hd, curr.node);
+                    }
+
+                    if (curr.node.left != null) {
+                        q.add(new Info(curr.node.left, curr.hd - 1));
+                        min = Math.min(curr.hd - 1, min);
+                    }
+
+                    if (curr.node.right != null) {
+                        q.add(new Info(curr.node.right, curr.hd + 1));
+                        max = Math.max(curr.hd + 1, max);
+                    }
+                }
+            }
+
+            for (int i = min; i <= max; i++) {
+                System.out.print(map.get(i).data + " ");
+            }
+        }
+
+        public static void main(String[] args) {
+            // int nodes[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
+            BinaryTree tree = new BinaryTree();
+            // Node root = tree.buildTree(nodes);
+            // tree.preOrder(root);
+            // tree.inOrder(root);
+            // tree.postOrder(root);
+            // tree.levelOrder(root);
+            // System.out.println(tree.height(root));
+            // System.out.println(tree.Count(root));
+            // System.out.println(tree.Sum(root));
+            // System.out.println(tree.diameter2(root));
+            // System.out.println(tree.diameter(root).diam);
+
+            Node root = new Node(1);
+            root.left = new Node(2);
+            root.right = new Node(3);
+            root.left.left = new Node(4);
+            root.left.right = new Node(5);
+            root.right.left = new Node(6);
+            root.right.right = new Node(7);
+
+            // Node subroot = new Node(2);
+            // subroot.left = new Node(4);
+            // subroot.right = new Node(5);
+
+            // System.out.println(tree.isSubTree(root, subroot));
+            tree.topView(root);
+        }
     }
 }
