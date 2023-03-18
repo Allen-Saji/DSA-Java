@@ -285,6 +285,32 @@ public class BT {
             return false;
         }
 
+        public int lcaDist(Node root, int n){
+            if(root == null){
+                return -1;
+            }
+            if(root.data == n){
+                return 0;
+            }
+            int leftDist = lcaDist(root.left, n);
+            int rightDist = lcaDist(root.right, n);
+
+            if(leftDist ==-1 && rightDist ==1){
+                return -1;
+            }else if(leftDist == -1){
+                return rightDist+1;
+            }else{
+                return leftDist+1;
+            }
+        }
+
+        //min distance between two nodes
+        public int minDist(Node root, int n1, int n2){
+            Node lca = Lca2(root, n1, n2);
+
+            return lcaDist(lca, n1) + lcaDist(lca, n2);
+        }
+
         public Node Lca2(Node root, int n1, int n2){
             if(root == null || root.data == n1 || root.data == n2){
                 return root;
@@ -325,6 +351,30 @@ public class BT {
             return lca;
         }
 
+        public int KthAncestor(Node root,int n, int k){
+            if(root == null){
+                return -1;
+            }
+
+            if(root.data == n){
+                return 0;
+            }
+
+            int leftDist = KthAncestor(root.left, n, k);
+            int rightDist = KthAncestor(root.right, n, k);
+
+            if(leftDist == -1 && rightDist == -1){
+                return -1;
+            }
+
+            int max = Math.max(leftDist, rightDist);
+            if(max+1 == k){
+                System.out.println(root.data);
+            }
+
+            return max+1;
+        }
+
         public static void main(String[] args) {
             // int nodes[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
             BinaryTree tree = new BinaryTree();
@@ -356,9 +406,12 @@ public class BT {
             // int k = 2;
             // tree.KLevel(root, 1, k);
 
-            int n1 = 4, n2 = 5;
+            int n1 = 4, n2 = 7;
+            int k = 2;
             //System.out.println(tree.Lca(root, n1, n2).data);
-            System.out.println(tree.Lca2(root, n1, n2).data);
+            //System.out.println(tree.Lca2(root, n1, n2).data);
+            //System.out.println(tree.minDist(root, n1, n2));
+            tree.KthAncestor(root, n2, k);
         }
     }
 }
