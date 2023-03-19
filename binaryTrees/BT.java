@@ -375,6 +375,24 @@ public class BT {
             return max+1;
         }
 
+        public int sumTree(Node root){
+            if(root == null){
+                return 0;
+            }
+
+            int leftChild = sumTree(root.left);
+            int rightChild = sumTree(root.right);
+
+            int data = root.data;
+
+            int newLeft = root.left == null ?  0 : root.left.data;
+            int newRight = root.right == null ? 0 : root.right.data;
+
+            root.data = leftChild + newLeft + rightChild + newRight;
+
+            return data;
+        }
+
         public static void main(String[] args) {
             // int nodes[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
             BinaryTree tree = new BinaryTree();
@@ -411,7 +429,9 @@ public class BT {
             //System.out.println(tree.Lca(root, n1, n2).data);
             //System.out.println(tree.Lca2(root, n1, n2).data);
             //System.out.println(tree.minDist(root, n1, n2));
-            tree.KthAncestor(root, n2, k);
+            //tree.KthAncestor(root, n2, k);
+            tree.sumTree(root);
+            tree.levelOrder(root);
         }
     }
 }
