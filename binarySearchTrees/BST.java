@@ -1,5 +1,7 @@
 package binarySearchTrees;
 
+import java.util.ArrayList;
+
 public class BST {
     static class Node{
         int data;
@@ -85,17 +87,55 @@ public class BST {
         return root;
     }
 
+    public static void printInRange(Node root, int k1, int k2){
+        if(root == null){
+            return;
+        }
+        if(root.data > k2){
+            printInRange(root.left, k1, k2);
+        }else if(root.data < k1){
+            printInRange(root.right, k1, k2);
+        }else{
+            printInRange(root.left, k1, k2);
+            System.out.print(root.data + " ");
+            printInRange(root.right, k1, k2);
+        }
+    }
+
+    public static void printPath(ArrayList<Integer> path){
+        for(int i=0;i<path.size();i++){
+            System.out.print(path.get(i)+" -> ");
+        }
+        System.out.println("null");
+    }
+
+    public static void printRoot2Leaf(Node root, ArrayList<Integer> path){
+        if(root == null){
+            return;
+        }
+        path.add(root.data);
+        if(root.left == null && root.right == null){
+            printPath(path);
+        }
+        printRoot2Leaf(root.left, path);
+        printRoot2Leaf(root.right, path);
+        path.remove(path.size()-1);
+    }
+
     public static void main(String[] args) {
-        int val[] = {5,1,3,2,4,7};
+        int val[] = {8,5,1,3,2,4,7,10,11,12,14,19};
         Node root = null;
         for(int i=0;i<val.length;i++){
             root = insert(root, val[i]);
         }
-        inOrder(root);
-        System.out.println();
+        //inOrder(root);
+        //System.out.println();
         //System.out.println(search(root,7)); 
-        root = delete(root, 1);
-        inOrder(root);
+        //root = delete(root, 1);
+        //inOrder(root);
+        //printInRange(root, 11, 19);
+        ArrayList<Integer> path = new ArrayList<>();
+        printRoot2Leaf(root, path);
 
     }
 }
