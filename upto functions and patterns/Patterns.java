@@ -125,7 +125,7 @@ public class Patterns {
         // inverted_half_pyramid(5);
         // floyds_triangle(4);
         // zero_one_triangle(4);
-        // butterfly_pattern(4);
+        butterfly_pattern(4);
         // solid_rhombus(5);
         // hollow_rhombus(5);
         // diamond(4);
