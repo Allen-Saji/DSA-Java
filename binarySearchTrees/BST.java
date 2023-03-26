@@ -122,6 +122,44 @@ public class BST {
         path.remove(path.size()-1);
     }
 
+    public static boolean validBST(Node root, Node min, Node max ){
+        if(root == null){
+            return true;
+        }
+
+        if(min != null && root.data <= min.data){
+            return false;
+        }
+
+        if(max != null && root.data >= max.data){
+            return false;
+        }
+
+        return validBST(root.left, min, root) && validBST(root.right, root, max);
+    }
+
+    public static Node mirror(Node root){
+        if(root == null){
+            return null;
+        }
+        Node leftMirror = mirror(root.left);
+        Node rightMirror = mirror(root.right);
+
+        root.left = rightMirror;
+        root.right = leftMirror;
+        return root;
+    }
+
+    public static void preOrder(Node root){
+        if(root == null){
+            return;
+        }
+
+        System.out.print(root.data+" ");
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
     public static void main(String[] args) {
         int val[] = {8,5,1,3,2,4,7,10,11,12,14,19};
         Node root = null;
@@ -134,8 +172,17 @@ public class BST {
         //root = delete(root, 1);
         //inOrder(root);
         //printInRange(root, 11, 19);
-        ArrayList<Integer> path = new ArrayList<>();
-        printRoot2Leaf(root, path);
+        // ArrayList<Integer> path = new ArrayList<>();
+        // printRoot2Leaf(root, path);
+        // if(validBST(root, null, null)){
+        //     System.out.println("Valid");
+        // }else{
+        //     System.out.println("Not Valid");
+        // }
+        preOrder(root);
+        System.out.println();
+        root = mirror(root);
+        preOrder(root);
 
     }
 }
