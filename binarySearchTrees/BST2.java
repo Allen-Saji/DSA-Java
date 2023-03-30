@@ -1,5 +1,7 @@
 package binarySearchTrees;
 
+import java.util.ArrayList;
+
 public class BST2 {
     
     static class Node{
@@ -83,22 +85,85 @@ public class BST2 {
 
         return new Info(false, size, min, max);
     }
+
+
+    public static void getinOrder(Node root, ArrayList<Integer> arr){
+        if(root == null){
+            return;
+        }
+
+        getinOrder(root.left, arr);
+        arr.add(root.data);
+        getinOrder(root.right, arr);
+    }
+
+    public static Node createBST(ArrayList<Integer> arr, int start, int end){
+        if(start > end){
+            return null;
+        }
+        int mid = (start+end)/2;
+        Node root = new Node(arr.get(mid));
+        root.left = createBST(arr, start, mid-1);
+        root.right = createBST(arr, mid+1, end);
+        return root;
+    }
+
+    public static Node mergeBSTs(Node root1, Node root2){
+        ArrayList<Integer> arr1 = new ArrayList<>();
+        getinOrder(root1, arr1);
+        ArrayList<Integer> arr2 = new ArrayList<>();
+        getinOrder(root2, arr2);
+
+        //merge
+        int i = 0, j = 0;
+        ArrayList<Integer> arr3 = new ArrayList<>();
+        while(i<arr1.size() && j<arr2.size()){
+            if(arr1.get(i) <= arr2.get(j)){
+                arr3.add(arr1.get(i++));
+            }else{
+                arr3.add(arr2.get(j++));
+            }
+        }
+
+        while(i<arr1.size()){
+            arr3.add(arr1.get(i++));
+        }
+
+        while(j<arr2.size()){
+            arr3.add(arr2.get(j++));
+        }
+
+        return createBST(arr3, 0, arr3.size()-1);
+    }
     public static void main(String[] args) {
         // int arr[] = {3,5,6,8,10,11,12};
         // Node root = createBalancedBST(arr, 0, arr.length - 1);
         // preOrder(root);
         //inOrder(root);
-        Node root = new Node(50);
-        root.left = new Node(30);
-        root.left.left  = new Node(5);
-        root.left.right = new Node(20);
-        root.right = new Node(60);
-        root.right.left = new Node(45);
-        root.right.right = new Node(70);
-        root.right.right.right = new Node(80);
-        root.right.right.left = new Node(65);
+        // Node root = new Node(50);
+        // root.left = new Node(30);
+        // root.left.left  = new Node(5);
+        // root.left.right = new Node(20);
+        // root.right = new Node(60);
+        // root.right.left = new Node(45);
+        // root.right.right = new Node(70);
+        // root.right.right.right = new Node(80);
+        // root.right.right.left = new Node(65);
 
-        Info info = largestBST(root);
-        System.out.println("Size of largest BST: " + maxBST);
+        // Info info = largestBST(root);
+        // System.out.println("Size of largest BST: " + maxBST);
+
+        //BST 1
+        Node root1 = new Node(2);
+        root1.left = new Node(1);
+        root1.right = new Node(4);
+
+        //BST2
+        Node root2 = new Node(9);
+        root2.left = new Node(3);
+        root2.right = new Node(12);
+
+        Node root = mergeBSTs(root1, root2);
+        inOrder(root);
     }
 }
