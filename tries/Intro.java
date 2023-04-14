@@ -27,11 +27,27 @@ public class Intro {
         curr.endOfWord = true;
     }
 
+    public static boolean search(String key) {
+        Node curr = root;
+        for (int level = 0; level < key.length(); level++) {
+            int idx = key.charAt(level) - 'a';
+            if (curr.children[idx] == null) {
+                return false;
+            }
+            curr = curr.children[idx];
+        }
+        return curr.endOfWord == true;
+    }
+
     public static void main(String[] args) {
         String words[] = { "a", "any", "thee", "there", "their" };
         for (int i = 0; i < words.length; i++) {
             insert(words[i]);
         }
+
+        System.out.println(search("thee"));
+        System.out.println(search("their"));
+        System.out.println(search("thor"));
     }
 
 }
