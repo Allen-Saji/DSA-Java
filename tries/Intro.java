@@ -39,15 +39,36 @@ public class Intro {
         return curr.endOfWord == true;
     }
 
-    public static void main(String[] args) {
-        String words[] = { "a", "any", "thee", "there", "their" };
-        for (int i = 0; i < words.length; i++) {
-            insert(words[i]);
+    public static boolean wordBreak(String key) {
+        if (key.length() == 0) {
+            return true;
         }
 
-        System.out.println(search("thee"));
-        System.out.println(search("their"));
-        System.out.println(search("thor"));
+        for (int i = 1; i <= key.length(); i++) {
+            if (search(key.substring(0, i)) &&
+                    wordBreak(key.substring(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        // String words[] = { "a", "any", "thee", "there", "their" };
+        // for (int i = 0; i < words.length; i++) {
+        // insert(words[i]);
+        // }
+
+        // System.out.println(search("thee"));
+        // System.out.println(search("their"));
+        // System.out.println(search("thor"));
+        String arr[] = { "i", "like", "samsung", "sam", "mobile" };
+        for (int i = 0; i < arr.length; i++) {
+            insert(arr[i]);
+        }
+
+        String key = "isam";
+        System.out.println(wordBreak(key));
     }
 
 }
