@@ -81,6 +81,26 @@ public class Intro {
         return count + 1;
     }
 
+    public static String ans = "";
+
+    public static void longestWord(Node root, StringBuilder temp) {
+        if (root == null) {
+            return;
+        }
+
+        for (int i = 0; i < 26; i++) {
+            if (root.children[i] != null && root.children[i].endOfWord == true) {
+                char ch = (char) (i + 'a');
+                temp.append(ch);
+                if (temp.length() > ans.length()) {
+                    ans = temp.toString();
+                }
+                longestWord(root.children[i], temp);
+                temp.deleteCharAt(temp.length() - 1);// backtrack
+            }
+        }
+    }
+
     public static void main(String[] args) {
         // String words[] = { "a", "any", "thee", "there", "their" };
         // for (int i = 0; i < words.length; i++) {
@@ -99,14 +119,13 @@ public class Intro {
         // System.out.println(wordBreak(key));
         // String prefix = "samsu";
         // System.out.println(startsWith(prefix));
-        String str = "ababa";
-        // insert all the suffix
-        for (int i = 0; i < str.length(); i++) {
-            String suffix = str.substring(i);
-            insert(suffix);
-        }
 
-        System.out.println(countNodes(root));
+        String words[] = { "a", "ap", "banana", "apple", "apply", "app", "appl" };
+        for (int i = 0; i < words.length; i++) {
+            insert(words[i]);
+        }
+        longestWord(root, new StringBuilder(""));
+        System.out.println(ans);
 
     }
 
