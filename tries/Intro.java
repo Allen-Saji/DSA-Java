@@ -66,6 +66,21 @@ public class Intro {
         return true;
     }
 
+    public static int countNodes(Node root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int count = 0;
+        for (int i = 0; i < 26; i++) {
+            if (root.children[i] != null) {
+                count += countNodes(root.children[i]);
+            }
+        }
+
+        return count + 1;
+    }
+
     public static void main(String[] args) {
         // String words[] = { "a", "any", "thee", "there", "their" };
         // for (int i = 0; i < words.length; i++) {
@@ -75,15 +90,24 @@ public class Intro {
         // System.out.println(search("thee"));
         // System.out.println(search("their"));
         // System.out.println(search("thor"));
-        String arr[] = { "i", "like", "samsung", "sam", "mobile" };
-        for (int i = 0; i < arr.length; i++) {
-            insert(arr[i]);
-        }
+        // String arr[] = { "i", "like", "samsung", "sam", "mobile" };
+        // for (int i = 0; i < arr.length; i++) {
+        // insert(arr[i]);
+        // }
 
         // String key = "isam";
         // System.out.println(wordBreak(key));
-        String prefix = "samsuo";
-        System.out.println(startsWith(prefix));
+        // String prefix = "samsu";
+        // System.out.println(startsWith(prefix));
+        String str = "ababa";
+        // insert all the suffix
+        for (int i = 0; i < str.length(); i++) {
+            String suffix = str.substring(i);
+            insert(suffix);
+        }
+
+        System.out.println(countNodes(root));
+
     }
 
 }
