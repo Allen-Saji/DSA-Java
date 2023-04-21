@@ -1,6 +1,8 @@
 package graphs;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Graphs {
 
@@ -11,6 +13,38 @@ public class Graphs {
             this.src = src;
             this.dest = dest;
             this.wt = wt;
+        }
+    }
+
+    // O(V+E)
+    public static void bfs(ArrayList<Edge> graph[]) {
+        Queue<Integer> q = new LinkedList<>();
+        boolean visited[] = new boolean[graph.length];
+        q.add(0); // source 0
+
+        while (!q.isEmpty()) {
+            int curr = q.remove();
+
+            if (!visited[curr]) { // visit the current
+                System.out.print(curr + " ");
+                visited[curr] = true;
+                for (int i = 0; i < graph[curr].size(); i++) {
+                    Edge e = graph[curr].get(i);
+                    q.add(e.dest);
+                }
+            }
+        }
+    }
+
+    public static void dfs(ArrayList<Edge> graph[], int curr, boolean vis[]) {
+        System.out.print(curr + " ");
+        vis[curr] = true;
+
+        for (int i = 0; i < graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if (!vis[e.dest]) {
+                dfs(graph, e.dest, vis);
+            }
         }
     }
 
@@ -42,10 +76,13 @@ public class Graphs {
         graph[4].add(new Edge(4, 2, 4));
 
         // 2's neighbours
-        for (int i = 0; i < graph[2].size(); i++) {
-            Edge edge = graph[2].get(i);
-            System.out.println(edge.dest);
-        }
+        // for (int i = 0; i < graph[2].size(); i++) {
+        // Edge edge = graph[2].get(i);
+        // System.out.println(edge.dest);
+        // }
+
+        // bfs(graph);
+        dfs(graph, 0, new boolean[V]);
 
     }
 }
