@@ -42,6 +42,37 @@ public class CycleDetection {
         return false;
     }
 
+    // if graph doesn't have any cycle, it will always be bipartite
+    // even nodes cycle -> bipartite
+    // odd nodes cycle -> non-bipartite
+    public static boolean isBipartite(ArrayList<Edge> graph[]) {
+        int color[] = new int[graph.length];
+        for (int i = 0; i < color.length; i++) {
+            color[i] = -1; // no color
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < graph.length; i++) {
+            if (color[i] == -1) {
+                q.add(i);
+                color[i] = 0; // 0 -> red || 1 -> green
+                while (!q.isEmpty()) {
+                    int curr = q.remove();
+                    for (int j = 0; j < graph[curr].size(); j++) {
+                        Edge e = graph[curr].get(j);
+                        if (color[e.dest] == -1) {
+                            int nextColor = color[curr] == 0 ? 1 : 0;
+                            color[e.dest] = nextColor;
+                            q.add(e.dest);
+                        } else if (color[e.dest] == color[curr]) {
+                            return false; // not bipartite
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         int V = 5; // no. of vertices of graph
         ArrayList<Edge>[] graph = new ArrayList[V]; // array of arraylist
@@ -60,15 +91,16 @@ public class CycleDetection {
         // 2nd vertex
         graph[2].add(new Edge(2, 1));
         graph[2].add(new Edge(2, 4));
-        // graph[2].add(new Edge(2, 3));
+        graph[2].add(new Edge(2, 3));
 
         // 3rd vertex
         graph[3].add(new Edge(3, 1));
-        // graph[3].add(new Edge(3, 2));
+        graph[3].add(new Edge(3, 2));
 
         // 4th vertex
         graph[4].add(new Edge(4, 2));
 
-        System.out.println(detectCycle(graph));
+        // System.out.println(detectCycle(graph));
+        System.out.println(isBipartite(graph));
     }
 }
