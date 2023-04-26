@@ -131,6 +131,44 @@ public class CycleDetection {
         s.push(curr);
     }
 
+    public static void calcIndegree(ArrayList<Edge> graph[], int indegree[]) {
+        for (int i = 0; i < graph.length; i++) {
+            for (int j = 0; j < graph[i].size(); j++) {
+                Edge e = graph[i].get(j);
+                indegree[e.dest]++;
+            }
+        }
+    }
+
+    // using bfs (kahn's method)
+    public static void topSort(ArrayList<Edge> graph[]) {
+        int indegree[] = new int[graph.length];
+        Queue<Integer> q = new LinkedList<>();
+        calcIndegree(graph, indegree);
+
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        // bfs
+        while (!q.isEmpty()) {
+            int curr = q.remove();
+            System.out.println(curr + " "); // topological sort print
+
+            for (int i = 0; i < graph[curr].size(); i++) {
+                Edge e = graph[curr].get(i);
+                indegree[e.dest]--;
+
+                if (indegree[e.dest] == 0) {
+                    q.add(indegree[e.dest]);
+                }
+            }
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         int V = 4; // no. of vertices of graph
         ArrayList<Edge>[] graph = new ArrayList[V]; // array of arraylist
