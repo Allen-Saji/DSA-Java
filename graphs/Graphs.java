@@ -2,6 +2,7 @@ package graphs;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Graphs {
@@ -84,6 +85,60 @@ public class Graphs {
         return false;
     }
 
+    static class Pair implements Comparable<Pair> {
+        int n; // node
+        int path;
+
+        public Pair(int n, int path) {
+            this.n = n;
+            this.path = path;
+        }
+
+        @Override
+        public int compareTo(Pair p2) {
+            return this.path - p2.path; // path based sorting for pairs
+        }
+    }
+
+    // tc: O(V+ElogV) because we used priority queue else O(V^2)
+    // ElogV PQ ke dist ki sorting ka time h
+    public static void dijkstra(ArrayList<Edge> graph[], int src, int dest) {
+        int dist[] = new int[graph.length]; // dist[i]: dist from src to i
+        for (int i = 0; i < graph.length; i++) {
+            if (i != src) {
+                dist[i] = Integer.MAX_VALUE;
+            }
+        }
+
+        boolean vis[] = new boolean[graph.length];
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.add(new Pair(src, 0));
+        // loop
+        while (!pq.isEmpty()) {
+            Pair curr = pq.remove();
+            if (!vis[curr.n]) {
+                vis[curr.n] = true;
+            }
+            for (int i = 0; i < graph[curr.n].size(); i++) {
+                Edge e = graph[curr.n].get(i);
+                int u = e.src;
+                int v = e.dest;
+                int wt = e.dest;
+
+                if (dist[u] + wt < dist[v]) {
+                    dist[v] = dist[u] + wt;
+                    pq.add(new Pair(v, dist[v]));
+                }
+            }
+        }
+
+        // print all src to dest shortest path
+        for (int i = 0; i < graph.length; i++) {
+            System.out.print(dist[i] + " ");
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         int V = 5; // no. of vertices of graph
         ArrayList<Edge>[] graph = new ArrayList[V]; // array of arraylist
@@ -119,7 +174,7 @@ public class Graphs {
 
         // bfs(graph);
         // dfs(graph, 0, new boolean[V]);
-        System.out.print(hasPath(graph, 0, 4, new boolean[V]));
+        // System.out.print(hasPath(graph, 0, 4, new boolean[V]));
 
     }
 }
