@@ -120,15 +120,15 @@ public class CycleDetection {
         }
     }
 
-    public static void printAllPath(ArrayList<Edge> graph[], int src, int dest, String path){
-        if(src == dest){
-            System.out.println(path+src);
+    public static void printAllPath(ArrayList<Edge> graph[], int src, int dest, String path) {
+        if (src == dest) {
+            System.out.println(path + src);
             return;
         }
 
-        for(int i=0;i<graph[src].size();i++){
-            Edge e  = graph[src].get(i);
-            printAllPath(graph, e.dest, dest, path+src);
+        for (int i = 0; i < graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            printAllPath(graph, e.dest, dest, path + src);
         }
     }
 
@@ -210,6 +210,7 @@ public class CycleDetection {
 
         // directed graph
         graph[0].add(new Edge(0, 2));
+        graph[0].add(new Edge(0, 3));
         graph[1].add(new Edge(1, 0));
         graph[2].add(new Edge(2, 3));
         // graph[3].add(new Edge(3, 0));
@@ -217,6 +218,8 @@ public class CycleDetection {
         // System.out.println(detectCycle(graph));
         // System.out.println(isBipartite(graph));
         // System.out.println(isCycle(graph));
-        topologicalSort(graph);
+        // topologicalSort(graph);
+        int src = 1, dest = 3;
+        printAllPath(graph, src, dest, "");
     }
 }
