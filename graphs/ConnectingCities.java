@@ -17,6 +17,7 @@ public class ConnectingCities {
         }
     }
 
+    // prim's algorithm
     public static int connectCities(int cities[][]) {
         PriorityQueue<Edge> pq = new PriorityQueue<>();
         boolean vis[] = new boolean[cities.length];
