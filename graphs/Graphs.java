@@ -100,8 +100,11 @@ public class Graphs {
     // }
     // }
 
-    // tc: O(V+ElogV) because we used priority queue else O(V^2)
+    // tc:
+
+    // O(V+ElogV) because we used priority queue else O(V^2)
     // ElogV PQ ke dist ki sorting ka time h
+
     // public static void dijkstra(ArrayList<Edge> graph[], int src, int dest) {
     // int dist[] = new int[graph.length]; // dist[i]: dist from src to i
     // for (int i = 0; i < graph.length; i++) {
