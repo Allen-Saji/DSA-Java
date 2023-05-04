@@ -19,6 +19,7 @@ public class DisjointSetUnion {
         return par[x] = find(par[x]);
     }
 
+    // T(C): constant O(1)
     public static void union(int a, int b) {
         int parA = find(a);
         int parB = find(b);
