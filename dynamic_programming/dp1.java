@@ -61,15 +61,35 @@ public class dp1 {
         return dp[n];
     }
 
+    public static int zeroOneKnapsack(int wt[], int val[], int W, int n) {
+        if (W == 0 || n == 0) {
+            return 0;
+        }
+
+        if (wt[n - 1] <= W) {// valid
+            // include
+            int ans1 = val[n - 1] + zeroOneKnapsack(wt, val, W - wt[n - 1], n - 1);
+            // exclude
+            int ans2 = zeroOneKnapsack(wt, val, W, n - 1);
+            return Math.max(ans1, ans2);
+        } else {// not valid
+            return zeroOneKnapsack(wt, val, W, n - 1);
+        }
+    }
+
     public static void main(String[] args) {
-        int n = 5;
+        // int n = 5;
         // int f[] = new int[n + 1];
         // System.out.println(fibonacci(n, f));
         // System.out.println(fibonacciTabulation(n));
         // int ways[] = new int[n + 1];
         // Arrays.fill(ways, -1);
         // System.out.println(countWays(n, ways));
-        System.out.println(counutWaysTab(n));
+        // System.out.println(counutWaysTab(n));
+        int val[] = { 15, 14, 10, 45, 30 };
+        int wt[] = { 2, 5, 1, 3, 4 };
+        int W = 7;
+        System.out.println(zeroOneKnapsack(wt, val, W, val.length));
     }
 
 }
