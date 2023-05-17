@@ -109,6 +109,30 @@ public class dp1 {
         return dp[n][W];
     }
 
+    public static boolean targetSum(int arr[], int sum) {
+        int n = arr.length;
+        boolean dp[][] = new boolean[n + 1][sum + 1];
+        // i = item && j = target sum
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = true;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= sum; j++) {
+                int v = arr[i - 1];
+                // include
+                if (v <= j && dp[i - 1][j - v]) {
+                    dp[i][j] = true;
+                }
+                // exclude
+                else if (dp[i - 1][j]) {
+                    dp[i][j] = true;
+                }
+            }
+        }
+        return dp[n][sum];
+    }
+
     public static void main(String[] args) {
         // int n = 5;
         // int f[] = new int[n + 1];
@@ -118,9 +142,9 @@ public class dp1 {
         // Arrays.fill(ways, -1);
         // System.out.println(countWays(n, ways));
         // System.out.println(counutWaysTab(n));
-        int val[] = { 15, 14, 10, 45, 30 };
-        int wt[] = { 2, 5, 1, 3, 4 };
-        int W = 7;
+        // int val[] = { 15, 14, 10, 45, 30 };
+        // int wt[] = { 2, 5, 1, 3, 4 };
+        // int W = 7;
         // int dp[][] = new int[val.length + 1][W + 1];
         // for (int i = 0; i < (val.length + 1); i++) {
         // for (int j = 0; j < (W + 1); j++) {
@@ -128,7 +152,10 @@ public class dp1 {
         // }
         // }
         // System.out.println(zeroOneKnapsack(wt, val, W, val.length, dp));
-        System.out.println(zerOneKnapsackTab(val, wt, W));
+        // System.out.println(zerOneKnapsackTab(val, wt, W));
+        int arr[] = { 4, 2, 7, 3, 1 };
+        int sum = 10;
+        System.out.println(targetSum(arr, sum));
     }
 
 }
