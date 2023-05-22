@@ -109,6 +109,33 @@ public class dp1 {
         return dp[n][W];
     }
 
+    public static int unboundedKnapsackTab(int val[], int wt[], int W) {
+        int n = val.length;
+        int dp[][] = new int[n + 1][W + 1];
+        for (int i = 0; i < dp.length; i++) {
+            dp[i][0] = 0;
+        }
+        for (int j = 0; j < dp[0].length; j++) {
+            dp[0][j] = 0;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= W; j++) {
+                int v = val[i - 1];// ith item value
+                int w = wt[i - 1];// ith item weight
+                if (w <= j) {
+                    int incProfit = v + dp[i][j - w];// include profit
+                    int excProfit = dp[i - 1][j];// exlude profit
+                    dp[i][j] = Math.max(incProfit, excProfit);
+                } else {
+                    int excProfit = dp[i - 1][j];// exlude profit
+                    dp[i][j] = excProfit;
+                }
+            }
+        }
+        return dp[n][W];
+    }
+
     public static boolean targetSum(int arr[], int sum) {
         int n = arr.length;
         boolean dp[][] = new boolean[n + 1][sum + 1];
@@ -142,9 +169,9 @@ public class dp1 {
         // Arrays.fill(ways, -1);
         // System.out.println(countWays(n, ways));
         // System.out.println(counutWaysTab(n));
-        // int val[] = { 15, 14, 10, 45, 30 };
-        // int wt[] = { 2, 5, 1, 3, 4 };
-        // int W = 7;
+        int val[] = { 15, 14, 10, 45, 30 };
+        int wt[] = { 2, 5, 1, 3, 4 };
+        int W = 7;
         // int dp[][] = new int[val.length + 1][W + 1];
         // for (int i = 0; i < (val.length + 1); i++) {
         // for (int j = 0; j < (W + 1); j++) {
@@ -153,9 +180,10 @@ public class dp1 {
         // }
         // System.out.println(zeroOneKnapsack(wt, val, W, val.length, dp));
         // System.out.println(zerOneKnapsackTab(val, wt, W));
-        int arr[] = { 4, 2, 7, 3, 1 };
-        int sum = 10;
-        System.out.println(targetSum(arr, sum));
+        // int arr[] = { 4, 2, 7, 3, 1 };
+        // int sum = 10;
+        // System.out.println(targetSum(arr, sum));
+        System.out.println(unboundedKnapsackTab(val, wt, W));
     }
 
 }
