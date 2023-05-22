@@ -109,6 +109,8 @@ public class dp1 {
         return dp[n][W];
     }
 
+    // unbounded kanpsack mein farak ye h ki tu same cheez ko multiple baar daal
+    // skta h
     public static int unboundedKnapsackTab(int val[], int wt[], int W) {
         int n = val.length;
         int dp[][] = new int[n + 1][W + 1];
