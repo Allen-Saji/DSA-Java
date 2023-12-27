@@ -142,6 +142,7 @@ public class dp1 {
         int n = arr.length;
         boolean dp[][] = new boolean[n + 1][sum + 1];
         // i = item && j = target sum
+        // dp[i][j] -> can i items form the sum j?
         for (int i = 0; i <= n; i++) {
             dp[i][0] = true;
         }
