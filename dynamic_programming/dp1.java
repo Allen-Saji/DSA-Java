@@ -127,15 +127,37 @@ public class dp1 {
                 int w = wt[i - 1];// ith item weight
                 if (w <= j) {
                     int incProfit = v + dp[i][j - w];// include profit
-                    int excProfit = dp[i - 1][j];// exlude profit
+                    int excProfit = dp[i - 1][j];// exclude profit
                     dp[i][j] = Math.max(incProfit, excProfit);
                 } else {
-                    int excProfit = dp[i - 1][j];// exlude profit
+                    int excProfit = dp[i - 1][j];// exclude profit
                     dp[i][j] = excProfit;
                 }
             }
         }
         return dp[n][W];
+    }
+
+    public static int coinChange(int coins[], int sum) {
+        int n = coins.length;
+        int dp[][] = new int[n + 1][sum + 1];
+
+        // table init
+        for (int i = 0; i < n + 1; i++) {
+            dp[i][0] = 1;
+        }
+
+        // tale filling
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < sum + 1; j++) {
+                if (coins[i - 1] <= j) {
+                    dp[i][j] = dp[i][j - coins[i - 1]] + dp[i - 1][j]; // include + exclude
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n][sum];
     }
 
     public static boolean targetSum(int arr[], int sum) {
@@ -175,6 +197,8 @@ public class dp1 {
         int val[] = { 15, 14, 10, 45, 30 };
         int wt[] = { 2, 5, 1, 3, 4 };
         int W = 7;
+        int coins[] = { 2, 5, 3, 6 };
+        int sum = 10;
         // int dp[][] = new int[val.length + 1][W + 1];
         // for (int i = 0; i < (val.length + 1); i++) {
         // for (int j = 0; j < (W + 1); j++) {
@@ -186,7 +210,8 @@ public class dp1 {
         // int arr[] = { 4, 2, 7, 3, 1 };
         // int sum = 10;
         // System.out.println(targetSum(arr, sum));
-        System.out.println(unboundedKnapsackTab(val, wt, W));
+        // System.out.println(unboundedKnapsackTab(val, wt, W));
+        System.out.println(coinChange(coins, sum));
     }
 
 }
