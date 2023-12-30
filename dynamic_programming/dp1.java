@@ -138,6 +138,7 @@ public class dp1 {
         return dp[n][W];
     }
 
+    // find total ways to reach a particular sum using the given number of coins
     public static int coinChange(int coins[], int sum) {
         int n = coins.length;
         int dp[][] = new int[n + 1][sum + 1];
@@ -158,6 +159,33 @@ public class dp1 {
             }
         }
         return dp[n][sum];
+    }
+
+    public static int rodCutting(int prices[], int lengths[], int totalRod) {
+        int n = lengths.length;
+        int dp[][] = new int[n + 1][totalRod + 1];
+
+        // initialization
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < totalRod + 1; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0;
+                }
+            }
+        }
+
+        // table filling i-> ith rod j-> total rod length
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < totalRod + 1; j++) {
+                // include
+                if (lengths[i - 1] <= j) {
+                    dp[i][j] = Math.max(prices[i - 1] + dp[i][j - lengths[i - 1]], dp[i - 1][j]);
+                } else { // exclude
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n][totalRod];
     }
 
     public static boolean targetSum(int arr[], int sum) {
@@ -194,11 +222,11 @@ public class dp1 {
         // Arrays.fill(ways, -1);
         // System.out.println(countWays(n, ways));
         // System.out.println(counutWaysTab(n));
-        int val[] = { 15, 14, 10, 45, 30 };
-        int wt[] = { 2, 5, 1, 3, 4 };
-        int W = 7;
-        int coins[] = { 2, 5, 3, 6 };
-        int sum = 10;
+        // int val[] = { 15, 14, 10, 45, 30 };
+        // int wt[] = { 2, 5, 1, 3, 4 };
+        // int W = 7;
+        // int coins[] = { 2, 5, 3, 6 };
+        // int sum = 10;
         // int dp[][] = new int[val.length + 1][W + 1];
         // for (int i = 0; i < (val.length + 1); i++) {
         // for (int j = 0; j < (W + 1); j++) {
@@ -211,7 +239,11 @@ public class dp1 {
         // int sum = 10;
         // System.out.println(targetSum(arr, sum));
         // System.out.println(unboundedKnapsackTab(val, wt, W));
-        System.out.println(coinChange(coins, sum));
+        // System.out.println(coinChange(coins, sum));
+        int lengths[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+        int prices[] = { 1, 5, 8, 9, 10, 17, 17, 20 };
+        int totRod = 8;
+        System.out.println(rodCutting(prices, lengths, totRod));
     }
 
 }
