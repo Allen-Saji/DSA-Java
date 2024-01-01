@@ -42,12 +42,34 @@ public class Lcs {
         return dp[n][m];
     }
 
-    public static void main(String args[]) {
-        String str1 = "abcdefg";
-        String str2 = "adef";
+    public static int lcSubstring(String str1, String str2) {
         int n = str1.length();
         int m = str2.length();
+        int ans = 0; // stores max substring length
+
         int dp[][] = new int[n + 1][m + 1];
+        // java mein already initialization mein saare elemnts 0 hote hain, so need do
+        // the init case
+        // table filling
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < m + 1; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    ans = Math.max(ans, dp[i][j]);
+                } else {
+                    dp[i][j] = 0;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public static void main(String args[]) {
+        String str1 = "abcdefg";
+        String str2 = "abcdef";
+        // int n = str1.length();
+        // int m = str2.length();
+        // int dp[][] = new int[n + 1][m + 1];
         // for (int[] row : dp) {
         // Arrays.fill(row, -1);
         // }
@@ -57,7 +79,8 @@ public class Lcs {
         // }
         // }
         // System.out.println(lcs1(str1, str2, n, m, dp));
-        System.out.println(lcs2(str1, str2));
+        // System.out.println(lcs2(str1, str2));
+        System.out.println(lcSubstring(str1, str2));
 
     }
 }
