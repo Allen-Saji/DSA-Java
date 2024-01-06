@@ -131,9 +131,48 @@ public class Lcs {
         return dp[n][m];
     }
 
+    // wild card matching
+    public static boolean isMatching(String s, String p) {
+        int n = s.length();
+        int m = p.length();
+        boolean dp[][] = new boolean[n + 1][m + 1];
+
+        // initialization
+        // s = " " , p = " "
+        dp[0][0] = true;
+        // p = " "
+        for (int i = 1; i < n + 1; i++) {
+            dp[i][0] = false;
+        }
+        // s = " "
+        for (int j = 1; j < m + 1; j++) {
+            if (p.charAt(j - 1) == '*') {
+                dp[0][j] = dp[0][j - 1];
+            } else {
+                dp[0][j] = false;
+            }
+        }
+
+        // bottom up filling
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < m + 1; j++) {
+                if (p.charAt(j - 1) == s.charAt(i - 1) || p.charAt(j - 1) == '?') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (p.charAt(j - 1) == '*') {
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1]; // ignore * or * = ' '
+                } else {
+                    dp[i][j] = false;
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
     public static void main(String args[]) {
-        String str1 = "execution";
-        String str2 = "intention";
+        // String str1 = "execution";
+        // String str2 = "intention";
+        String s = "baaabab";
+        String p = "****ba***ab**";
         // int arr1[] = { 1, 4, 5, 3, 5, 6, 4 };
         // int n = str1.length();
         // int m = str2.length();
@@ -150,7 +189,7 @@ public class Lcs {
         // System.out.println(lcs2(str1, str2));
         // System.out.println(lcSubstring(str1, str2));
         // System.out.println(lis(arr1));
-        System.out.println(editDistance(str1, str2));
-
+        // System.out.println(editDistance(str1, str2));
+        System.out.println(isMatching(s, p));
     }
 }
