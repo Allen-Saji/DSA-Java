@@ -37,11 +37,29 @@ public class CatalanNumbers {
         return dp[n];
     }
 
+    // same as catalan numbers
+    public static int countBSTs(int n) {
+        int dp[] = new int[n + 1];
+        // initialization
+        dp[0] = dp[1] = 1;
+
+        // bottom up
+        for (int i = 2; i < n + 1; i++) {
+            for (int j = 0; j < i; j++) {
+                int left = dp[j];
+                int right = dp[i - j - 1];
+                dp[i] += left * right;
+            }
+        }
+        return dp[n];
+    }
+
     public static void main(String[] args) {
-        int n = 5;
+        int n = 4;
         int dp[] = new int[n + 1];
         Arrays.fill(dp, -1);
         System.out.println(catalanMem(n, dp));
         System.out.println(catalanTab(n));
+        System.out.println(countBSTs(n));
     }
 }
